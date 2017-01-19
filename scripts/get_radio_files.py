@@ -9,10 +9,21 @@ import json
 
 def download():
     times = 30
-    # cdn = "cdn_azure/"
+    
     cdn = "origin/"
+    # cdn = "cdn_azure/"
+    # cdn = "cdn_cloudfront/"
+    # cdn = "cdn_cloudflare/"
+    
     path = "files_2m/"
+    # path = "files_10m/"
+    # path = "files_20m/"
+    # path = "files_50m/"
+    
     url = "http://ichikawa-lab-exp.westus.cloudapp.azure.com/" + path
+    # url = "http://ichikawa-lab-exp1.azureedge.net" + path
+    # url = "http://dv12b46anbdab.cloudfront.net" + path
+    # url = "http://ichikawa-lab-exp.tkhskn.me" + path
     result = []
     
     for count in range(1, times+1):
