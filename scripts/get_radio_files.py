@@ -38,7 +38,7 @@ def download():
             start_file = (sec / sec_size) + 1
             end_file = start_file + ((period / sec_size) + 1)
         each_result = {}
-        for num in range(start_file, end_file + 1):
+        for num in range(start_file, end_file):
             start = time.time()
             file_name = "{0}-{1}-{2}".format(count, sec, num)
             urllib.urlretrieve(url + str(num), "./{0}{1}{2}".format(cdn, path, file_name))
