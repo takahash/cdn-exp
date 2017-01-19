@@ -8,13 +8,13 @@ import time
 import json
 
 def download():
-    size = 2                # セグメントファイルのサイズ(MB)
+    size = 4        	    # セグメントファイルのサイズ(MB)
     sec_size = size / 2
     times = 50              # 試行回数
     period = 20
     
-    path = "files_2m/"
-    # path = "files_4m/"
+    # path = "files_2m/"
+    path = "files_4m/"
     # path = "files_10m/"
     # path = "files_20m/"
     
@@ -37,15 +37,19 @@ def download():
         else:
             start_file = (sec / sec_size) + 1
             end_file = start_file + ((period / sec_size) + 1)
-        each_result = {}
+        each_time = []
+        each_file_name = []
         for num in range(start_file, end_file):
             start = time.time()
             file_name = "{0}-{1}-{2}".format(count, sec, num)
             urllib.urlretrieve(url + str(num), "./{0}{1}{2}".format(cdn, path, file_name))
             elapsed_time = time.time() - start
             print ("elapsed_time:{0}".format(elapsed_time)) + "[sec]"
-            each_result.update({file_name: elapsed_time})
-        result.append(each_result)
+            each_time.append(elapsed_time)
+            # each_file_name.append(file_name)
+        result.append(each_time)
+        # result.append(each_file_name)
+	print str(count) + " times"
     f = open("./{0}{1}output.json".format(cdn, path), "w")
     json.dump(result, f)
 
