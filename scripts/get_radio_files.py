@@ -18,25 +18,25 @@ def download():
     # path = "files_10m/"
     # path = "files_20m/"
     
-    cdn = "origin/"
+    # cdn = "origin/"
     # cdn = "cdn_azure/"
-    # cdn = "cdn_cloudfront/"
+    cdn = "cdn_cloudfront/"
     # cdn = "cdn_cloudflare/"
     
-    url = "http://ichikawa-lab-exp.westus.cloudapp.azure.com/" + path
+    # url = "http://ichikawa-lab-exp.westus.cloudapp.azure.com/" + path
     # url = "http://ichikawa-lab-exp1.azureedge.net/" + path
-    # url = "http://dv12b46anbdab.cloudfront.net/" + path
+    url = "http://dv12b46anbdab.cloudfront.net/" + path
     # url = "http://ichikawa-lab-exp.tkhskn.me/" + path
     result = []
 
     for count in range(1, times+1):
         sec = random.randint(1, 450)
         if (sec % sec_size) == 0:
-            start_file = sec
-            end_file = sec + (period / sec_size)
+            start_file = (sec / sec_size) + 1
+            end_file = start_file + (period / sec_size)
         else:
             start_file = (sec / sec_size) + 1
-            end_file = start_file + ((period / sec_size) + 1)
+            end_file = start_file + ((period / sec_size) + 1) + 1
         each_time = []
         each_file_name = []
         for num in range(start_file, end_file):
