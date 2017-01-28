@@ -6,15 +6,13 @@ import urllib, random, time, json, threading, logging
 logging.basicConfig(level=logging.DEBUG, format='[%(levelname)s] (%(threadName)-10s) %(message)s',)
 
 def download(num):
-    size = 4        	    # セグメントファイルのサイズ(MB)
+    size = 2        	    # セグメントファイルのサイズ(MB)
     sec_size = size / 2
     times = 50              # 試行回数
-    period = 20
+    period = 30		    # 取得時間(s)
+    thread_num = 20         # スレッド数
 
-    path = "files_2m/"
-    # path = "files_4m/"
-    # path = "files_10m/"
-    # path = "files_20m/"
+    path = "files_{0}m".format(size)
 
     cdn = "origin/"
     # cdn = "cdn_azure/"
@@ -28,7 +26,7 @@ def download(num):
     result = []
 
     for count in range(1, times+1):
-        sec = random.randint(1, 450)
+        sec = random.randint(1, 500)
         if (sec % sec_size) == 0:
             start_file = (sec / sec_size) + 1
             end_file = start_file + (period / sec_size)
@@ -53,7 +51,7 @@ def download(num):
 
 if __name__ == "__main__":
     threads = []
-    for i in range(20):
+    for i in range(thread_num):
         t = threading.Thread(target=download, args=(i,))
         threads.append(t)
         t.start()
