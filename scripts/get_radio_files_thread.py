@@ -28,7 +28,7 @@ urls= [
     ]
 
 cdn = cdns[int(args[2])]
-url = urls[int(args[3])]
+url = urls[int(args[2])] + path
 
 def download(thread_num):
     result = []
