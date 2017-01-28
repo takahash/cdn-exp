@@ -4,27 +4,26 @@
 import urllib, random, time, json, threading, logging
 
 logging.basicConfig(level=logging.DEBUG, format='[%(levelname)s] (%(threadName)-10s) %(message)s',)
+size = 2        	    # セグメントファイルのサイズ(MB)
+sec_size = size / 2
+times = 50              # 試行回数
+period = 30		    # 取得時間(s)
+thread_num = 20         # スレッド数
+
+path = "files_{0}m".format(size)
+
+cdn = "origin/"
+# cdn = "cdn_azure/"
+# cdn = "cdn_cloudfront/"
+# cdn = "cdn_cloudflare/"
+
+url = "http://ichikawa-lab-exp.westus.cloudapp.azure.com/" + path
+# url = "http://ichikawa-lab-exp1.azureedge.net/" + path
+# url = "http://dv12b46anbdab.cloudfront.net/" + path
+# url = "http://ichikawa-lab-exp.tkhskn.me/" + path
 
 def download(num):
-    size = 2        	    # セグメントファイルのサイズ(MB)
-    sec_size = size / 2
-    times = 50              # 試行回数
-    period = 30		    # 取得時間(s)
-    thread_num = 20         # スレッド数
-
-    path = "files_{0}m".format(size)
-
-    cdn = "origin/"
-    # cdn = "cdn_azure/"
-    # cdn = "cdn_cloudfront/"
-    # cdn = "cdn_cloudflare/"
-
-    url = "http://ichikawa-lab-exp.westus.cloudapp.azure.com/" + path
-    # url = "http://ichikawa-lab-exp1.azureedge.net/" + path
-    # url = "http://dv12b46anbdab.cloudfront.net/" + path
-    # url = "http://ichikawa-lab-exp.tkhskn.me/" + path
     result = []
-
     for count in range(1, times+1):
         sec = random.randint(1, 500)
         if (sec % sec_size) == 0:
