@@ -5,3 +5,5 @@ for file in *; do
         mv $file $num
         num=$(expr $num + 1)
 done
+
+https://docs.microsoft.com/ja-jp/azure/virtual-machines/virtual-machines-linux-classic-attach-disk

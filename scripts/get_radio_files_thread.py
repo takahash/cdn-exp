@@ -1,28 +1,36 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
-import urllib, random, time, json, threading, logging
+import urllib, random, time, json, threading, logging, sys
 
+args = sys.argv
 logging.basicConfig(level=logging.DEBUG, format='[%(levelname)s] (%(threadName)-10s) %(message)s',)
-size = 2        	    # セグメントファイルのサイズ(MB)
+size = args[1]        	    # セグメントファイルのサイズ(MB)
 sec_size = size / 2
 times = 50              # 試行回数
-period = 30		    # 取得時間(s)
+period = 30		        # 取得時間(s)
 thread_num = 20         # スレッド数
 
-path = "files_{0}m".format(size)
+path = "files_{0}m/".format(size)
 
-cdn = "origin/"
-# cdn = "cdn_azure/"
-# cdn = "cdn_cloudfront/"
-# cdn = "cdn_cloudflare/"
+cdns = [
+    "origin/",
+    "cdn_azure/",
+    "cdn_cloudfront/",
+    # "cdn_cloudflare/",
+    ]
 
-url = "http://ichikawa-lab-exp.westus.cloudapp.azure.com/" + path
-# url = "http://ichikawa-lab-exp1.azureedge.net/" + path
-# url = "http://dv12b46anbdab.cloudfront.net/" + path
-# url = "http://ichikawa-lab-exp.tkhskn.me/" + path
+urls= [
+    "http://ichikawa-lab-exp.westus.cloudapp.azure.com/",
+    "http://ichikawa-lab-exp1.azureedge.net/",
+    "http://dv12b46anbdab.cloudfront.net/",
+    # "http://ichikawa-lab-exp.tkhskn.me/",
+    ]
 
-def download(num):
+cdn = cdns[int(args[2])]
+url = urls[int(args[3])]
+
+def download(thread_num):
     result = []
     for count in range(1, times+1):
         sec = random.randint(1, 500)
@@ -45,7 +53,7 @@ def download(num):
         result.append(each_time)
         # result.append(each_file_name)
     logging.debug(str(count) + " times")
-    output = open("./{0}{1}output{2}.json".format(cdn, path, num), "w")
+    output = open("./{0}{1}output{2}.json".format(cdn, path, thread_num), "w")
     json.dump(result, output)
 
 if __name__ == "__main__":
