@@ -1,25 +1,26 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
-import urllib, random, time, json, threading
+import urllib, random, time, json, threading, logging
 
-    
-def download():
+logging.basicConfig(level=logging.DEBUG, format='[%(levelname)s] (%(threadName)-10s) %(message)s',)
+
+def download(num):
     size = 4        	    # セグメントファイルのサイズ(MB)
     sec_size = size / 2
     times = 50              # 試行回数
     period = 20
-    
+
     path = "files_2m/"
     # path = "files_4m/"
     # path = "files_10m/"
     # path = "files_20m/"
-    
+
     cdn = "origin/"
     # cdn = "cdn_azure/"
     # cdn = "cdn_cloudfront/"
     # cdn = "cdn_cloudflare/"
-    
+
     url = "http://ichikawa-lab-exp.westus.cloudapp.azure.com/" + path
     # url = "http://ichikawa-lab-exp1.azureedge.net/" + path
     # url = "http://dv12b46anbdab.cloudfront.net/" + path
@@ -41,17 +42,18 @@ def download():
             file_name = "{0}-{1}-{2}".format(count, sec, num)
             urllib.urlretrieve(url + str(num), "./{0}{1}{2}".format(cdn, path, file_name))
             elapsed_time = time.time() - start
-            print ("elapsed_time:{0}".format(elapsed_time)) + "[sec]"
+            logging.debug("elapsed_time:{0}".format(elapsed_time) + "[sec]")
             each_time.append(elapsed_time)
             # each_file_name.append(file_name)
         result.append(each_time)
         # result.append(each_file_name)
-	print str(count) + " times"
-    f = open("./{0}{1}output.json".format(cdn, path), "w")
-    json.dump(result, f)
+    logging.debug(str(count) + " times")
+    output = open("./{0}{1}output{2}.json".format(cdn, path, num), "w")
+    json.dump(result, output)
 
 if __name__ == "__main__":
     threads = []
     for i in range(20):
+        t = threading.Thread(target=download, args=(i,))
         threads.append(t)
         t.start()

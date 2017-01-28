@@ -1,2 +1,5 @@
 *~
 tmp
+tags
+.DS_Store
+*.xlsx
