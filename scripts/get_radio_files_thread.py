@@ -5,7 +5,7 @@ import urllib, random, time, json, threading, logging, sys
 
 args = sys.argv
 logging.basicConfig(level=logging.DEBUG, format='[%(levelname)s] (%(threadName)-10s) %(message)s',)
-size = args[1]        	    # セグメントファイルのサイズ(MB)
+size = int(args[1])        	    # セグメントファイルのサイズ(MB)
 sec_size = size / 2
 times = 50              # 試行回数
 period = 30		        # 取得時間(s)
